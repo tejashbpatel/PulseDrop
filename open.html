@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open in PulseDrop</title>
+<meta name="description" content="Someone shared a drop with you on PulseDrop.">
+<meta property="og:title" content="A drop on PulseDrop">
+<meta property="og:description" content="Open it in PulseDrop, or get the app.">
+<style>
+  :root { color-scheme: dark; }
+  body {
+    margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(160deg, #0b0b1a, #3a1a5c); color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "Helvetica Neue", Arial, sans-serif;
+  }
+  .card { width: min(92vw, 380px); text-align: center; padding: 28px 22px; }
+  .logo { font-size: 44px; margin-bottom: 6px; }
+  h1 { margin: 0 0 6px; font-size: 26px; font-weight: 800; }
+  p { margin: 0 0 22px; color: rgba(255,255,255,.75); font-size: 15px; line-height: 1.4; }
+  a.btn {
+    display: block; padding: 15px 18px; border-radius: 16px; text-decoration: none;
+    font-weight: 800; font-size: 17px; margin-bottom: 12px;
+  }
+  a.primary { background: #ffd60a; color: #000; }
+  a.secondary { background: rgba(255,255,255,.12); color: #fff; }
+  small { display: block; margin-top: 14px; color: rgba(255,255,255,.5); font-size: 12px; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">&#127911;</div>
+    <h1 id="title">Someone shared a drop</h1>
+    <p id="text">Open it in PulseDrop, or get the app first.</p>
+
+    <a class="btn primary" id="store" href="https://apps.apple.com/us/app/pulsedrop-sound-drops/id6826664689">Get PulseDrop</a>
+    <a class="btn secondary" id="open" href="pulsedrop://drop">I have PulseDrop: open it</a>
+    <small>PulseDrop &middot; Sound Drops</small>
+  </div>
+
+<script>
+  // Links look like open.html?d=<drop id> or open.html?c=<chain id>.
+  var params = new URLSearchParams(window.location.search);
+  var drop = params.get("d");
+  var chain = params.get("c");
+  var safe = /^[A-Za-z0-9_-]{1,80}$/;
+  var open = document.getElementById("open");
+
+  if (drop && safe.test(drop)) {
+    open.href = "pulsedrop://drop?id=" + encodeURIComponent(drop);
+  } else if (chain && safe.test(chain)) {
+    open.href = "pulsedrop://chain?id=" + encodeURIComponent(chain);
+    document.getElementById("title").textContent = "Join an Echo chain";
+    document.getElementById("text").textContent = "Add yours to the chain in PulseDrop.";
+  } else {
+    open.href = "pulsedrop://";
+  }
+</script>
+</body>
+</html>
